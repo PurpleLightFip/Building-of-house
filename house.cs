@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace House_builder
 {
-    class house
+    class House
     {
-        public List<room> room_list = new List<room>();
+        public List<Room> room_list = new List<Room>();
         public double dbl_width_house;
         public double dbl_length_house;
 
-        public house()
+        public House()
         {
             room_list = null;
             dbl_width_house = 0;
             dbl_length_house = 0;
         }
 
-        public house(
-            List<room> room_list,
+        public House(
+            List<Room> room_list,
             double dbl_width_house,
             double dbl_length_house
             )

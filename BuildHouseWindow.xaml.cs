@@ -19,8 +19,8 @@ namespace House_builder
     /// </summary>
     public partial class BuildHouseWindow : Window
     {
-        List<room> room_list = new List<room>();
-        public BuildHouseWindow(List<room> x)
+        List<Room> room_list = new List<Room>();
+        public BuildHouseWindow(List<Room> x)
         {
             room_list = x;
             InitializeComponent();
@@ -28,7 +28,7 @@ namespace House_builder
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            room Room = new room();
+            Room room = new Room();
 
             //Задаем цвет контура, его толщину
             Path pthMainStyle = new Path();
@@ -49,13 +49,13 @@ namespace House_builder
             for (int i = 0; i < room_list.Count; i++)
             {
                 Rect rtcRect_for_Room = new Rect();
-                Room =
+                room =
                     room_list[i];
                 //Задаем координаты прямоугольника и его размеры
-                rtcRect_for_Room.X = Room.dbl_x_coordinate;
-                rtcRect_for_Room.Y = Room.dbl_y_coordinate;
-                rtcRect_for_Room.Width = Room.dbl_width_room;
-                rtcRect_for_Room.Height = Room.dbl_length_room;
+                rtcRect_for_Room.X = room.dbl_x_coordinate;
+                rtcRect_for_Room.Y = room.dbl_y_coordinate;
+                rtcRect_for_Room.Width = room.dbl_width_room;
+                rtcRect_for_Room.Height = room.dbl_length_room;
 
                 RectangleGeometry rgRoom = new RectangleGeometry();
                 rgRoom.Rect = rtcRect_for_Room;

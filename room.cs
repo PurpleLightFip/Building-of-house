@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace House_builder
 {
-    class room
+    class Room
     {
         public string str_room_name;       //Название комнаты (Кухня, прихожая и т.п.)
         public double dbl_room_area;       //Площадь комнаты в метрах
@@ -17,7 +17,7 @@ namespace House_builder
         public bool bFlag_room;            //Специальный флаг, необходимый для определения, участвовала ли
                                            //комната(элемент списка) в алгоритме или нет.
 
-        public room()
+        public Room()
         {
             str_room_name = "default";
             dbl_room_area = 0;
@@ -28,7 +28,7 @@ namespace House_builder
             bFlag_room = false;
         }
 
-        public room(
+        public Room(
             string str_room_name,
             double dbl_room_area,
             double dbl_x_coordinate,

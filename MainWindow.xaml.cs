@@ -30,13 +30,13 @@ namespace House_builder
         private void btn_Build_button_Click(object sender, RoutedEventArgs e)
         {
 
-            List<room> room_list = new List<room>();
+            List<Room> room_list = new List<Room>();
 
 
             if (Room_number_1.Text != "")
             {
-                room rtc_Room_1 =
-                    new room(
+                Room rtc_Room_1 =
+                    new Room(
                         "Гостиная",
                         Convert.ToDouble(Room_number_1.Text) * 400,
                         0,
@@ -51,8 +51,8 @@ namespace House_builder
 
             if (Room_number_2.Text != "")
             {
-                room rtc_Room_2 =
-                    new room(
+                Room rtc_Room_2 =
+                    new Room(
                         "Кухня",
                         Convert.ToDouble(Room_number_2.Text) * 400,
                         0,
@@ -67,8 +67,8 @@ namespace House_builder
 
             if (Room_number_3.Text != "")
             {
-                room rtc_Room_3 =
-                    new room(
+                Room rtc_Room_3 =
+                    new Room(
                         "Ванная",
                         Convert.ToDouble(Room_number_3.Text) * 400,
                         0,
@@ -83,8 +83,8 @@ namespace House_builder
 
             if (Room_number_4.Text != "")
             {
-                room rtc_Room_4 =
-                    new room(
+                Room rtc_Room_4 =
+                    new Room(
                         "Санузел",
                         Convert.ToDouble(Room_number_4.Text) * 400,
                         0,
@@ -99,8 +99,8 @@ namespace House_builder
 
             if (Room_number_5.Text != "")
             {
-                room rtc_Room_5 =
-                    new room(
+                Room rtc_Room_5 =
+                    new Room(
                         "Спальня",
                         Convert.ToDouble(Room_number_5.Text) * 400,
                         0,
@@ -115,8 +115,8 @@ namespace House_builder
 
             if (Room_number_6.Text != "")
             {
-                room rtc_Room_6 =
-                    new room(
+                Room rtc_Room_6 =
+                    new Room(
                         "Холл",
                         Convert.ToDouble(Room_number_6.Text) * 400,
                         0,
@@ -131,8 +131,8 @@ namespace House_builder
 
             if (Room_number_7.Text != "")
             {
-                room rtc_Room_7 =
-                    new room(
+                Room rtc_Room_7 =
+                    new Room(
                         "Тамбур",
                         Convert.ToDouble(Room_number_7.Text) * 400,
                         0,
@@ -145,14 +145,14 @@ namespace House_builder
                 room_list.Add(rtc_Room_7);
             }
 
-            house House = new house(
+            House house = new House(
                 room_list,
-                t_dbl_width_house.Text,
-                t_dbl_length_house.Text
-                )
+                Convert.ToDouble(t_dbl_width_house.Text),
+                Convert.ToDouble(t_dbl_length_house.Text)
+                );
 
-            house_builder House_builder = new house_builder();
-            House_builder.buildHouse(House);
+            House_builder house_builder = new House_builder();
+            house_builder.buildHouse(house);
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
