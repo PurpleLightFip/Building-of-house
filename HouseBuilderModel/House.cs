@@ -4,31 +4,64 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace House_builder
+namespace HouseBuilder
 {
     class House
     {
-        public List<Room> room_list = new List<Room>();
-        public double dbl_width_house;
-        public double dbl_length_house;
+        public List<Room> roomsList = new List<Room>();
+        public double houseWidth;
+        public double houseLength;
 
         public House()
         {
-            room_list = null;
-            dbl_width_house = 0;
-            dbl_length_house = 0;
+            roomsList = null;
+            houseWidth = 0;
+            houseLength = 0;
         }
 
         public House(
-            List<Room> room_list,
-            double dbl_width_house,
-            double dbl_length_house
+            List<Room> roomsList,
+            double houseWidth,
+            double houseLength
             )
         { 
-            this.room_list = room_list;
-            this.dbl_width_house = dbl_width_house;
-            this.dbl_length_house = dbl_length_house;
+            this.roomsList = roomsList;
+            this.houseWidth = houseWidth;
+            this.houseLength = houseLength;
         }
-
+		
+		public void addRoom(room Room)
+		{
+			this.roomsList.add(room);
+		}
+		
+		public Room getRoom(integer index)
+		{
+			return this.roomsList.at(index);
+		}
+		
+        public double HouseWidth
+		{
+			get
+			{
+				return this.houseWidth;
+			}
+			set
+			{
+				this.houseWidth = value < 0 ? 0 : value;
+			}
+		}
+		
+        public double houseLength
+		{
+			get
+			{
+				return this.houseLength;
+			}
+			set
+			{
+				this.houseLength = value < 0 ? 0 : value;
+			}
+		}
     }
 }
