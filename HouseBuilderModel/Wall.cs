@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace House_builder
+namespace HouseBuilder
 {
     class wall
     {

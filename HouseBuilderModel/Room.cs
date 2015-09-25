@@ -53,7 +53,6 @@ namespace HouseBuilder
 			{
 				return this.roomName;
 			}
-
 			set
 			{
 				this.roomName = value;
@@ -66,7 +65,6 @@ namespace HouseBuilder
 			{
 				return this.roomArea;
 			}
-
 			set
 			{
 				this.roomArea = value < 0 ? 0 : value;
@@ -79,7 +77,6 @@ namespace HouseBuilder
 			{
 				return this.xCoordinate;
 			}
-			
 			set
 			{
 				this.xCoordinate = value < 0 ? 0 : value;
@@ -92,7 +89,6 @@ namespace HouseBuilder
 			{
 				return this.yCoordinate;
 			}
-			
 			set
 			{
 				this.yCoordinate = value < 0 ? 0 : value;
@@ -105,7 +101,6 @@ namespace HouseBuilder
 			{
 				return this.widthRoom;
 			}
-			
 			set
 			{
 				this.widthRoom = value < 0 ? 0 : value;
@@ -118,7 +113,6 @@ namespace HouseBuilder
 			{
 				return this.lengthRoom;
 			}
-			
 			set
 			{
 				this.lengthRoom = value < 0 ? 0 : value;
@@ -131,7 +125,6 @@ namespace HouseBuilder
 			{
 				return this.isUsed;
 			}
-			
 			set
 			{
 				this.isUsed = value;
