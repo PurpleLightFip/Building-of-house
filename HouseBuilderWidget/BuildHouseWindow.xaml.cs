@@ -12,17 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace House_builder
+namespace HouseBuilder
 {
     /// <summary>
     /// Interaction logic for BuildHouseWindow.xaml
     /// </summary>
     public partial class BuildHouseWindow : Window
     {
-        List<Room> room_list = new List<Room>();
+        List<Room> roomsList = new List<Room>();
         public BuildHouseWindow(List<Room> x)
         {
-            room_list = x;
+            roomsList = x;
             InitializeComponent();
         }
 
@@ -44,21 +44,21 @@ namespace House_builder
 
             GeometryGroup ggHouse = new GeometryGroup();
 
-            Canvas Canvas_for_create = new Canvas();
+            Canvas canvasforCreate = new Canvas();
 
-            for (int i = 0; i < room_list.Count; i++)
+            for (int i = 0; i < roomsList.Count; i++)
             {
-                Rect rtcRect_for_Room = new Rect();
+                Rect rtcRectForRoom = new Rect();
                 room =
-                    room_list[i];
+                    roomsList[i];
                 //Задаем координаты прямоугольника и его размеры
-                rtcRect_for_Room.X = room.dbl_x_coordinate;
-                rtcRect_for_Room.Y = room.dbl_y_coordinate;
-                rtcRect_for_Room.Width = room.dbl_width_room;
-                rtcRect_for_Room.Height = room.dbl_length_room;
+                rtcRectForRoom.X = room.XCoordinate;
+                rtcRectForRoom.Y = room.YCoordinate;
+                rtcRectForRoom.Width = room.RoomWidth;
+                rtcRectForRoom.Height = room.RoomLength;
 
                 RectangleGeometry rgRoom = new RectangleGeometry();
-                rgRoom.Rect = rtcRect_for_Room;
+                rgRoom.Rect = rtcRectForRoom;
 
                 ggHouse.Children.Add(rgRoom);
 
@@ -66,39 +66,39 @@ namespace House_builder
 
             pthMainStyle.Data = ggHouse;
 
-            Canvas_for_create.Children.Add(
+            canvasforCreate.Children.Add(
                 pthMainStyle
                 );
 
-            double dbl_SetT = 0;
-            double dbl_SetL = 0;
+            double setT = 0;
+            double setL = 0;
 
-            for (int i = 0; i < room_list.Count; i++)
+            for (int i = 0; i < roomsList.Count; i++)
             {
-                dbl_SetT = room_list[i].dbl_y_coordinate +
-                    room_list[i].dbl_length_room / 2 - 25;
+                setT = roomsList[i].YCoordinate +
+                    roomsList[i].RoomLength / 2 - 25;
 
-                dbl_SetL = room_list[i].dbl_x_coordinate +
-                    room_list[i].dbl_width_room / 2 - 25;
+                setL = roomsList[i].XCoordinate +
+                    roomsList[i].RoomWidth / 2 - 25;
 
-                Label Name_Room = new Label();
-                Name_Room.Content = room_list[i].str_room_name +
-                    "\n  " + room_list[i].dbl_room_area / 400;
+                Label nameRoom = new Label();
+                nameRoom.Content = roomsList[i].str_room_name +
+                    "\n  " + roomsList[i].dbl_room_area / 400;
 
-                dbl_SetT = room_list[i].dbl_y_coordinate +
-                    room_list[i].dbl_length_room / 2 - 25;
+                setT = roomsList[i].YCoordinate +
+                    roomsList[i].RoomLength / 2 - 25;
 
-                dbl_SetL = room_list[i].dbl_x_coordinate +
-                    room_list[i].dbl_width_room / 2 - 25;
+                setL = roomsList[i].XCoordinate +
+                    roomsList[i].RoomWidth / 2 - 25;
 
-                Canvas.SetTop(Name_Room, dbl_SetT);
-                Canvas.SetLeft(Name_Room, dbl_SetL);
+                Canvas.SetTop(nameRoom, setT);
+                Canvas.SetLeft(nameRoom, setL);
 
-                Canvas_for_create.Children.Add(Name_Room);
+                canvasforCreate.Children.Add(nameRoom);
             }
 
-            Canvas_for_create.Visibility = Visibility;
-            GridHouse.Children.Add(Canvas_for_create);
+            canvasforCreate.Visibility = Visibility;
+            GridHouse.Children.Add(canvasforCreate);
         }
     }
 }
