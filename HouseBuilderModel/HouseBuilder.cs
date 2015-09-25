@@ -4,155 +4,155 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace House_builder
+namespace HouseBuilder
 {
-    class House_builder
+    class HouseBuilder
     {
         //Функция, запускающая процесс автоматизированного формирования плана дома
-        public void buildHouse(House house)
+        public static void buildHouse(House house)
         {
             //Сортировка комнат по убыванию площадей комнат
-            house.room_list.Sort(
+            house.RoomsList.Sort(
                 delegate(Room R1, Room R2)
                 {
-                    return R2.dbl_room_area.CompareTo(R1.dbl_room_area);
+                    return R2.RoomArea.CompareTo(R1.RoomArea);
                 }
             );
 
             createRooms(
                 0,
                 0,
-                house.dbl_width_house,
-                house.dbl_length_house,
-                house.room_list
+                house.HouseWidth,
+                house.HouseLength,
+                house.RoomsList
                 );
         }
 
         //Функция, вычисляющая координаты верхнего левого угла комнаты,
         //длину и ширину комнаты.
         void createRooms(
-            double f_dbl_x_coordinate,
-            double f_dbl_y_coordinate,
-            double f_dbl_Width,
-            double f_dbl_Length,
-            List<Room> room_list
+            double fXCoordinate,
+            double fYCoordinate,
+            double fWidth,
+            double fLength,
+            List<Room> RoomsList
             )
         {
-            List<Room> copy1_room_list = new List<Room>();
+            List<Room> copyRoomsList1 = new List<Room>();
             Room room = new Room();
 
-            for (int i = 0; i < room_list.Count; i++)
+            for (int i = 0; i < RoomsList.Count; i++)
             {
-                room = room_list[i];
-                copy1_room_list.Add(room);
+                room = RoomsList[i];
+                copyRoomsList1.Add(room);
             }		
 
             #region variation№1
                 
-            if (iNumberRoomOfNoUse(copy1_room_list) > 2)
+            if (iNumberRoomOfNoUse(copyRoomsList1) > 2)
             {
                 int iRoomIndexV1 = iSelectRoom(
-                    copy1_room_list, 
-                    f_dbl_x_coordinate,
-                    f_dbl_y_coordinate,
-                    f_dbl_Width,
+                    copyRoomsList1, 
+                    fXCoordinate,
+                    fYCoordinate,
+                    fWidth,
                     1
                     );
 
                 if (iRoomIndexV1 != -1)
                 {
-                    room = copy1_room_list[iRoomIndexV1];
+                    room = copyRoomsList1[iRoomIndexV1];
 
-                    double dbl_Area_for_copy = room.dbl_room_area;
+                    double areaForCopy = room.RoomArea;
 
-                    double dbl_Length_for_copy1 =
-                        dbl_Area_for_copy / f_dbl_Width;
+                    double lengthForCopy1 =
+                        areaForCopy / fWidth;
 
-                    if (f_dbl_Width / 2 <= dbl_Length_for_copy1 &&
-                        dbl_Length_for_copy1 <= 2 * f_dbl_Width
+                    if (fWidth / 2 <= lengthForCopy1 &&
+                        lengthForCopy1 <= 2 * fWidth
                        )
                     {
-                        copy1_room_list[iRoomIndexV1] = new Room(
-                            room.str_room_name,
-                            room.dbl_room_area,
-                            f_dbl_x_coordinate,
-                            f_dbl_y_coordinate,
-                            f_dbl_Width,
-                            dbl_Length_for_copy1,
+                        copyRoomsList1[iRoomIndexV1] = new Room(
+                            room.RoomName,
+                            room.RoomArea,
+                            fXCoordinate,
+                            fYCoordinate,
+                            fWidth,
+                            lengthForCopy1,
                             true
                             );
 
                         createRooms(
-                            f_dbl_x_coordinate,
-                            f_dbl_y_coordinate + dbl_Length_for_copy1,
-                            f_dbl_Width,
-                            f_dbl_Length - dbl_Length_for_copy1,
-                            copy1_room_list
+                            fXCoordinate,
+                            fYCoordinate + lengthForCopy1,
+                            fWidth,
+                            fLength - lengthForCopy1,
+                            copyRoomsList1
                             );
                     }
                 }
              }
              else
              {
-                if (iNumberRoomOfNoUse(copy1_room_list) > 1)
+                if (iNumberRoomOfNoUse(copyRoomsList1) > 1)
                 {
                     int iRoomIndexV1 = iSelectRoom(
-                        copy1_room_list,
-                        f_dbl_x_coordinate,
-                        f_dbl_y_coordinate,
-                        f_dbl_Width,
+                        copyRoomsList1,
+                        fXCoordinate,
+                        fYCoordinate,
+                        fWidth,
                         1
                         );
 
                     if (iRoomIndexV1 != -1)
                     {
-                        room = copy1_room_list[iRoomIndexV1];
+                        room = copyRoomsList1[iRoomIndexV1];
 
-                        double dbl_Area_for_copy = room.dbl_room_area;
+                        double areaForCopy = room.RoomArea;
 
-                        double dbl_Length_for_copy1 =
-                            dbl_Area_for_copy / f_dbl_Width;
+                        double lengthForCopy1 =
+                            areaForCopy / fWidth;
 
-                        if ((f_dbl_Width / 2 <= dbl_Length_for_copy1 &&
-                            dbl_Length_for_copy1 <= 2 * f_dbl_Width) &&
-                            ((f_dbl_Length - dbl_Length_for_copy1) <= 2 * f_dbl_Width &&
-                            f_dbl_Width / 2 <= (f_dbl_Length - dbl_Length_for_copy1))
+                        if ((fWidth / 2 <= lengthForCopy1 &&
+                            lengthForCopy1 <= 2 * fWidth) &&
+                            ((fLength - lengthForCopy1) <= 2 * fWidth &&
+                            fWidth / 2 <= (fLength - lengthForCopy1))
                             )
                         {
                             
-                            copy1_room_list[iRoomIndexV1] = new Room(
-                                room.str_room_name,
-                                room.dbl_room_area,
-                                f_dbl_x_coordinate,
-                                f_dbl_y_coordinate,
-                                f_dbl_Width,
-                                dbl_Length_for_copy1,
+                            copyRoomsList1[iRoomIndexV1] = new Room(
+                                room.RoomName,
+                                room.RoomArea,
+                                fXCoordinate,
+                                fYCoordinate,
+                                fWidth,
+                                lengthForCopy1,
                                 true
                                 );
 
                             iRoomIndexV1 = iSelectRoom(
-                                copy1_room_list,
-                                f_dbl_x_coordinate,
-                                f_dbl_y_coordinate + dbl_Length_for_copy1,
-                                f_dbl_Width,
+                                copyRoomsList1,
+                                fXCoordinate,
+                                fYCoordinate + lengthForCopy1,
+                                fWidth,
                                 1
                                 );
 
                             if (iRoomIndexV1 != -1)
                             {
-                                room = copy1_room_list[iRoomIndexV1];
+                                room = copyRoomsList1[iRoomIndexV1];
 
-                                copy1_room_list[iRoomIndexV1] = new Room(
-                                    room.str_room_name,
-                                    room.dbl_room_area,
-                                    f_dbl_x_coordinate,
-                                    f_dbl_y_coordinate + dbl_Length_for_copy1,
-                                    f_dbl_Width,
-                                    f_dbl_Length - dbl_Length_for_copy1,
+                                copyRoomsList1[iRoomIndexV1] = new Room(
+                                    room.RoomName,
+                                    room.RoomArea,
+                                    fXCoordinate,
+                                    fYCoordinate + lengthForCopy1,
+                                    fWidth,
+                                    fLength - lengthForCopy1,
                                     true
                                     );
 
-                                createWindow_for_House(copy1_room_list);
+                                createWindowForHouse(copyRoomsList1);
                             }
                         }
                     }
@@ -161,117 +161,117 @@ namespace House_builder
             }
             #endregion
 
-            List<Room> copy2_room_list = new List<Room>();
+            List<Room> roomsListCopy2 = new List<Room>();
 
-            for (int i = 0; i < room_list.Count; i++)
+            for (int i = 0; i < RoomsList.Count; i++)
             {
-                room = room_list[i];
-                copy2_room_list.Add(room);
+                room = RoomsList[i];
+                roomsListCopy2.Add(room);
             }
 
             #region variation№2
-            if (iNumberRoomOfNoUse(copy2_room_list) > 2)
+            if (iNumberRoomOfNoUse(roomsListCopy2) > 2)
             {
                 int iRoomIndexV2 = iSelectRoom(
-                    copy2_room_list,
-                    f_dbl_x_coordinate,
-                    f_dbl_y_coordinate,
-                    f_dbl_Length,
+                    roomsListCopy2,
+                    fXCoordinate,
+                    fYCoordinate,
+                    fLength,
                     2);
 
                 if (iRoomIndexV2 != -1)
                 {
-                    room = copy2_room_list[iRoomIndexV2];
+                    room = roomsListCopy2[iRoomIndexV2];
 
-                    double dbl_Area_for_copy = room.dbl_room_area;
+                    double areaForCopy = room.RoomArea;
 
-                    double dbl_Width_for_copy2 =
-                        dbl_Area_for_copy / f_dbl_Length;
+                    double widthForCopy2 =
+                        areaForCopy / fLength;
 
-                    if (f_dbl_Length / 2 <= dbl_Width_for_copy2 &&
-                        dbl_Width_for_copy2 <= 2 * f_dbl_Length
+                    if (fLength / 2 <= widthForCopy2 &&
+                        widthForCopy2 <= 2 * fLength
                        )
                     {
-                        copy2_room_list[iRoomIndexV2] = new Room(
-                            room.str_room_name,
-                            room.dbl_room_area,
-                            f_dbl_x_coordinate,
-                            f_dbl_y_coordinate,
-                            dbl_Width_for_copy2,
-                            f_dbl_Length,
+                        roomsListCopy2[iRoomIndexV2] = new Room(
+                            room.RoomName,
+                            room.RoomArea,
+                            fXCoordinate,
+                            fYCoordinate,
+                            widthForCopy2,
+                            fLength,
                             true
                             ); 
 
                         createRooms(
-                            f_dbl_x_coordinate + dbl_Width_for_copy2,
-                            f_dbl_y_coordinate,
-                            f_dbl_Width - dbl_Width_for_copy2,
-                            f_dbl_Length,
-                            copy2_room_list
+                            fXCoordinate + widthForCopy2,
+                            fYCoordinate,
+                            fWidth - widthForCopy2,
+                            fLength,
+                            roomsListCopy2
                             );
                     }
                 }
             }
             else 
             {
-                if (iNumberRoomOfNoUse(copy2_room_list) > 1)
+                if (iNumberRoomOfNoUse(roomsListCopy2) > 1)
                 {
                     int iRoomIndexV2 = iSelectRoom(
-                        copy2_room_list,
-                        f_dbl_x_coordinate,
-                        f_dbl_y_coordinate,
-                        f_dbl_Length,
+                        roomsListCopy2,
+                        fXCoordinate,
+                        fYCoordinate,
+                        fLength,
                         2);
 
                     if (iRoomIndexV2 != -1)
                     {
-                        room = copy2_room_list[iRoomIndexV2];
+                        room = roomsListCopy2[iRoomIndexV2];
 
-                        double dbl_Area_for_copy = room.dbl_room_area;
+                        double areaForCopy = room.RoomArea;
 
-                        double dbl_Width_for_copy2 =
-                            dbl_Area_for_copy / f_dbl_Length;
+                        double widthForCopy2 =
+                            areaForCopy / fLength;
 
-                        if ((f_dbl_Length / 2 <= dbl_Width_for_copy2 &&
-                            dbl_Width_for_copy2 <= 2 * f_dbl_Length) &&
-                            ((f_dbl_Width - dbl_Width_for_copy2) <= 2 * f_dbl_Length &&
-                            f_dbl_Length / 2 <= (f_dbl_Width - dbl_Width_for_copy2))
+                        if ((fLength / 2 <= widthForCopy2 &&
+                            widthForCopy2 <= 2 * fLength) &&
+                            ((fWidth - widthForCopy2) <= 2 * fLength &&
+                            fLength / 2 <= (fWidth - widthForCopy2))
                             )
                         {
                             Room copy2_Room = new Room(
-                                room.str_room_name,
-                                room.dbl_room_area,
-                                f_dbl_x_coordinate,
-                                f_dbl_y_coordinate,
-                                dbl_Width_for_copy2,
-                                f_dbl_Length,
+                                room.RoomName,
+                                room.RoomArea,
+                                fXCoordinate,
+                                fYCoordinate,
+                                widthForCopy2,
+                                fLength,
                                 true
                                 );
 
-                            copy2_room_list[iRoomIndexV2] = copy2_Room;
+                            roomsListCopy2[iRoomIndexV2] = copy2_Room;
 
                                 
-                            iRoomIndexV2 = iSelectRoom(copy2_room_list,
-                                                      f_dbl_x_coordinate + dbl_Width_for_copy2,
-                                                      f_dbl_y_coordinate,
-                                                      f_dbl_Length,
+                            iRoomIndexV2 = iSelectRoom(roomsListCopy2,
+                                                      fXCoordinate + widthForCopy2,
+                                                      fYCoordinate,
+                                                      fLength,
                                                       2);
 
                             if (iRoomIndexV2 != -1)
                             {
-                                room = copy2_room_list[iRoomIndexV2];
+                                room = roomsListCopy2[iRoomIndexV2];
 
-                                copy2_room_list[iRoomIndexV2] = new Room(
-                                        room.str_room_name,
-                                        room.dbl_room_area,
-                                        f_dbl_x_coordinate + dbl_Width_for_copy2,
-                                        f_dbl_y_coordinate,
-                                        f_dbl_Width - dbl_Width_for_copy2,
-                                        f_dbl_Length,
+                                roomsListCopy2[iRoomIndexV2] = new Room(
+                                        room.RoomName,
+                                        room.RoomArea,
+                                        fXCoordinate + widthForCopy2,
+                                        fYCoordinate,
+                                        fWidth - widthForCopy2,
+                                        fLength,
                                         true
                                         );
 
-                                createWindow_for_House(copy2_room_list);
+                                createWindowForHouse(roomsListCopy2);
                             }
                         }
                     }
@@ -279,122 +279,122 @@ namespace House_builder
             }
             #endregion
 
-            //copy2_room_list.Clear();
+            //roomsListCopy2.Clear();
 
-            List<Room> copy3_room_list = new List<Room>();
+            List<Room> roomsListCopy3 = new List<Room>();
 
-            for (int i = 0; i < room_list.Count; i++)
+            for (int i = 0; i < RoomsList.Count; i++)
             {
-                room = room_list[i];
-                copy3_room_list.Add(room);
+                room = RoomsList[i];
+                roomsListCopy3.Add(room);
             }
 
             #region variations№3
-            if (iNumberRoomOfNoUse(copy3_room_list) > 2)
+            if (iNumberRoomOfNoUse(roomsListCopy3) > 2)
             {
                 int iRoomIndexV3 = iSelectRoom(
-                    copy3_room_list, 
-                    f_dbl_x_coordinate,
-                    f_dbl_y_coordinate + f_dbl_Length,
-                    f_dbl_Width,
+                    roomsListCopy3, 
+                    fXCoordinate,
+                    fYCoordinate + fLength,
+                    fWidth,
                     3
                     );
 
                 if (iRoomIndexV3 != -1)
                 {
-                    room = copy3_room_list[iRoomIndexV3];
+                    room = roomsListCopy3[iRoomIndexV3];
 
-                    double dbl_Area_for_copy = room.dbl_room_area;
+                    double areaForCopy = room.RoomArea;
 
-                    double dbl_Length_for_copy3 =
-                        dbl_Area_for_copy / f_dbl_Width;
+                    double lengthForCopy3 =
+                        areaForCopy / fWidth;
 
-                    if (f_dbl_Width / 2 <= dbl_Length_for_copy3 &&
-                        dbl_Length_for_copy3 <= 2 * f_dbl_Width
+                    if (fWidth / 2 <= lengthForCopy3 &&
+                        lengthForCopy3 <= 2 * fWidth
                        )
                     {
 
-                        copy3_room_list[iRoomIndexV3] = new Room(
-                            room.str_room_name,
-                            room.dbl_room_area,
-                            f_dbl_x_coordinate,
-                            f_dbl_y_coordinate + f_dbl_Length - dbl_Length_for_copy3,
-                            f_dbl_Width,
-                            dbl_Length_for_copy3,
+                        roomsListCopy3[iRoomIndexV3] = new Room(
+                            room.RoomName,
+                            room.RoomArea,
+                            fXCoordinate,
+                            fYCoordinate + fLength - lengthForCopy3,
+                            fWidth,
+                            lengthForCopy3,
                             true
                             );
 
                         createRooms(
-                            f_dbl_x_coordinate,
-                            f_dbl_y_coordinate,
-                            f_dbl_Width,
-                            f_dbl_Length - dbl_Length_for_copy3,
-                            copy3_room_list
+                            fXCoordinate,
+                            fYCoordinate,
+                            fWidth,
+                            fLength - lengthForCopy3,
+                            roomsListCopy3
                             );
                     }
                 }
              }
              else
              {
-                if (iNumberRoomOfNoUse(copy3_room_list) > 1)
+                if (iNumberRoomOfNoUse(roomsListCopy3) > 1)
                 {
                     int iRoomIndexV3 = iSelectRoom(
-                        copy3_room_list,
-                        f_dbl_x_coordinate,
-                        f_dbl_y_coordinate + f_dbl_Length,
-                        f_dbl_Width,
+                        roomsListCopy3,
+                        fXCoordinate,
+                        fYCoordinate + fLength,
+                        fWidth,
                         3
                         );
 
                     if (iRoomIndexV3 != -1)
                     {
-                        room = copy3_room_list[iRoomIndexV3];
+                        room = roomsListCopy3[iRoomIndexV3];
 
-                        double dbl_Area_for_copy = room.dbl_room_area;
+                        double areaForCopy = room.RoomArea;
 
-                        double dbl_Length_for_copy3 =
-                            dbl_Area_for_copy / f_dbl_Width;
+                        double lengthForCopy3 =
+                            areaForCopy / fWidth;
 
-                        if ((f_dbl_Width / 2 <= dbl_Length_for_copy3 &&
-                            dbl_Length_for_copy3 <= 2 * f_dbl_Width) &&
-                            ((f_dbl_Length - dbl_Length_for_copy3) <= 2 * f_dbl_Width &&
-                            f_dbl_Width / 2 <= (f_dbl_Length - dbl_Length_for_copy3))
+                        if ((fWidth / 2 <= lengthForCopy3 &&
+                            lengthForCopy3 <= 2 * fWidth) &&
+                            ((fLength - lengthForCopy3) <= 2 * fWidth &&
+                            fWidth / 2 <= (fLength - lengthForCopy3))
                             )
                         {
 
-                            copy3_room_list[iRoomIndexV3] = new Room(
-                                room.str_room_name,
-                                room.dbl_room_area,
-                                f_dbl_x_coordinate,
-                                f_dbl_y_coordinate + f_dbl_Length - dbl_Length_for_copy3,
-                                f_dbl_Width,
-                                dbl_Length_for_copy3,
+                            roomsListCopy3[iRoomIndexV3] = new Room(
+                                room.RoomName,
+                                room.RoomArea,
+                                fXCoordinate,
+                                fYCoordinate + fLength - lengthForCopy3,
+                                fWidth,
+                                lengthForCopy3,
                                 true
                                 );
 
                             iRoomIndexV3 = iSelectRoom(
-                                copy3_room_list,
-                                f_dbl_x_coordinate,
-                                f_dbl_y_coordinate,
-                                f_dbl_Width,
+                                roomsListCopy3,
+                                fXCoordinate,
+                                fYCoordinate,
+                                fWidth,
                                 1
                                 );
 
                             if (iRoomIndexV3 != -1)
                             {
-                                room = copy3_room_list[iRoomIndexV3];
+                                room = roomsListCopy3[iRoomIndexV3];
 
-                                copy3_room_list[iRoomIndexV3] = new Room(
-                                    room.str_room_name,
-                                    room.dbl_room_area,
-                                    f_dbl_x_coordinate,
-                                    f_dbl_y_coordinate,
-                                    f_dbl_Width,
-                                    f_dbl_Length - dbl_Length_for_copy3,
+                                roomsListCopy3[iRoomIndexV3] = new Room(
+                                    room.RoomName,
+                                    room.RoomArea,
+                                    fXCoordinate,
+                                    fYCoordinate,
+                                    fWidth,
+                                    fLength - lengthForCopy3,
                                     true
                                     );
 
-                                createWindow_for_House(copy3_room_list);
+                                createWindowForHouse(roomsListCopy3);
                             }
                         }
                     }
@@ -403,118 +403,118 @@ namespace House_builder
             }
             #endregion
 
-            List<Room> copy4_room_list = new List<Room>();
+            List<Room> roomsListCopy4 = new List<Room>();
 
-            for (int i = 0; i < room_list.Count; i++)
+            for (int i = 0; i < RoomsList.Count; i++)
             {
-                room = room_list[i];
-                copy4_room_list.Add(room);
+                room = RoomsList[i];
+                roomsListCopy4.Add(room);
             }
 
             #region variation№4
-            if (iNumberRoomOfNoUse(copy4_room_list) > 2)
+            if (iNumberRoomOfNoUse(roomsListCopy4) > 2)
             {
                 int iRoomIndexV4 = iSelectRoom(
-                    copy4_room_list,
-                    f_dbl_x_coordinate + f_dbl_Width,
-                    f_dbl_y_coordinate,
-                    f_dbl_Length,
+                    roomsListCopy4,
+                    fXCoordinate + fWidth,
+                    fYCoordinate,
+                    fLength,
                     4
                     );
 
                 if (iRoomIndexV4 != -1)
                 {
-                    room = copy4_room_list[iRoomIndexV4];
+                    room = roomsListCopy4[iRoomIndexV4];
 
-                    double dbl_Area_for_copy = room.dbl_room_area;
+                    double areaForCopy = room.RoomArea;
 
-                    double dbl_Width_for_copy4 =
-                        dbl_Area_for_copy / f_dbl_Length;
+                    double widthForCopy4 =
+                        areaForCopy / fLength;
 
-                    if (f_dbl_Length / 2 <= dbl_Width_for_copy4 &&
-                        dbl_Width_for_copy4 <= 2 * f_dbl_Length
+                    if (fLength / 2 <= widthForCopy4 &&
+                        widthForCopy4 <= 2 * fLength
                        )
                     {
                         Room copy4_Room = new Room(
-                            room.str_room_name,
-                            room.dbl_room_area,
-                            f_dbl_x_coordinate + f_dbl_Width - dbl_Width_for_copy4,
-                            f_dbl_y_coordinate,
-                            dbl_Width_for_copy4,
-                            f_dbl_Length,
+                            room.RoomName,
+                            room.RoomArea,
+                            fXCoordinate + fWidth - widthForCopy4,
+                            fYCoordinate,
+                            widthForCopy4,
+                            fLength,
                             true
                             );
 
-                        copy4_room_list[iRoomIndexV4] = copy4_Room;
+                        roomsListCopy4[iRoomIndexV4] = copy4_Room;
 
                         createRooms(
-                            f_dbl_x_coordinate,
-                            f_dbl_y_coordinate,
-                            f_dbl_Width - dbl_Width_for_copy4,
-                            f_dbl_Length,
-                            copy4_room_list
+                            fXCoordinate,
+                            fYCoordinate,
+                            fWidth - widthForCopy4,
+                            fLength,
+                            roomsListCopy4
                             );
                     }
                 }
             }
             else
             {
-                if (iNumberRoomOfNoUse(copy4_room_list) > 1)
+                if (iNumberRoomOfNoUse(roomsListCopy4) > 1)
                 {
                     int iRoomIndexV4 = iSelectRoom(
-                        copy4_room_list,
-                        f_dbl_x_coordinate + f_dbl_Width,
-                        f_dbl_y_coordinate,
-                        f_dbl_Length,
+                        roomsListCopy4,
+                        fXCoordinate + fWidth,
+                        fYCoordinate,
+                        fLength,
                         4);
 
                     if (iRoomIndexV4 != -1)
                     {
-                        room = copy4_room_list[iRoomIndexV4];
+                        room = roomsListCopy4[iRoomIndexV4];
 
-                        double dbl_Area_for_copy = room.dbl_room_area;
+                        double areaForCopy = room.RoomArea;
 
-                        double dbl_Width_for_copy4 =
-                            dbl_Area_for_copy / f_dbl_Length;
+                        double widthForCopy4 =
+                            areaForCopy / fLength;
 
-                        if ((f_dbl_Length / 2 <= dbl_Width_for_copy4 &&
-                            dbl_Width_for_copy4 <= 2 * f_dbl_Length) &&
-                            ((f_dbl_Width - dbl_Width_for_copy4) <= 2 * f_dbl_Length &&
-                            f_dbl_Length / 2 <= (f_dbl_Width - dbl_Width_for_copy4))
+                        if ((fLength / 2 <= widthForCopy4 &&
+                            widthForCopy4 <= 2 * fLength) &&
+                            ((fWidth - widthForCopy4) <= 2 * fLength &&
+                            fLength / 2 <= (fWidth - widthForCopy4))
                             )
                         {
-                            copy4_room_list[iRoomIndexV4] = new Room(
-                                room.str_room_name,
-                                room.dbl_room_area,
-                                f_dbl_x_coordinate + f_dbl_Width - dbl_Width_for_copy4,
-                                f_dbl_y_coordinate,
-                                dbl_Width_for_copy4,
-                                f_dbl_Length,
+                            roomsListCopy4[iRoomIndexV4] = new Room(
+                                room.RoomName,
+                                room.RoomArea,
+                                fXCoordinate + fWidth - widthForCopy4,
+                                fYCoordinate,
+                                widthForCopy4,
+                                fLength,
                                 true
                                 );
 
                             iRoomIndexV4 = iSelectRoom(
-                                copy4_room_list,
-                                f_dbl_x_coordinate,
-                                f_dbl_y_coordinate,
-                                f_dbl_Length,
+                                roomsListCopy4,
+                                fXCoordinate,
+                                fYCoordinate,
+                                fLength,
                                 2);
 
                             if (iRoomIndexV4 != -1)
                             {
-                                room = copy4_room_list[iRoomIndexV4];
+                                room = roomsListCopy4[iRoomIndexV4];
 
-                                copy4_room_list[iRoomIndexV4] = new Room(
-                                    room.str_room_name,
-                                    room.dbl_room_area,
-                                    f_dbl_x_coordinate,
-                                    f_dbl_y_coordinate,
-                                    f_dbl_Width - dbl_Width_for_copy4,
-                                    f_dbl_Length,
+                                roomsListCopy4[iRoomIndexV4] = new Room(
+                                    room.RoomName,
+                                    room.RoomArea,
+                                    fXCoordinate,
+                                    fYCoordinate,
+                                    fWidth - widthForCopy4,
+                                    fLength,
                                     true
                                     );
 
-                                createWindow_for_House(copy4_room_list);
+                                createWindowForHouse(roomsListCopy4);
                             }
                         }
                     }
@@ -528,15 +528,15 @@ namespace House_builder
         //Функция, возвращающая количество комнат, 
         //для которых еще не определено местоположение
         int iNumberRoomOfNoUse(
-            List<Room> room_list
+            List<Room> RoomsList
             )
         {
             Room room = new Room();
             int iSum = 0;   //Переменная, увеличивается на 1, если комната еще не была построена 
-            for (int i = 0; i < room_list.Count; i++)
+            for (int i = 0; i < RoomsList.Count; i++)
             {
-                room = room_list[i];
-                if (!room.bFlag_room)
+                room = RoomsList[i];
+                if (!room.IsUsed)
                 {
                     iSum++;
                 }
@@ -549,95 +549,95 @@ namespace House_builder
         //Возвращает или индекс комнаты, или -1, что символизирует о том,
         //что ни одна комната не подходит для продолжения алгоритма.
         int iSelectRoom(
-            List<Room> f_rtc_Room_list,
-            double f_dbl_x_coordinate,
-            double f_dbl_y_coordinate,
-            double f_dbl_Side,
+            List<Room> rtcRoomsList,
+            double fXCoordinate,
+            double fYCoordinate,
+            double fSide,
             int iVersion
             )
         {
             Room room = new Room();
-            for (int i = 0; i < f_rtc_Room_list.Count; i++)
+            for (int i = 0; i < rtcRoomsList.Count; i++)
             {
-                room = f_rtc_Room_list[i];
-                if (!room.bFlag_room)      
+                room = rtcRoomsList[i];
+                if (!room.IsUsed)      
                 {
-                    double dbl_Area_for_copy = room.dbl_room_area;
+                    double areaForCopy = room.RoomArea;
 
-                    Room copy_rtc_Room = new Room();
+                    Room rtcRoomCopy = new Room();
 
                     if (iVersion == 1)
                     {
-                        double dbl_Length_for_copy1 =
-                            dbl_Area_for_copy / f_dbl_Side;
+                        double lengthForCopy1 =
+                            areaForCopy / fSide;
 
-                        copy_rtc_Room = new Room(
-                            room.str_room_name,
-                            room.dbl_room_area,
-                            f_dbl_x_coordinate,
-                            f_dbl_y_coordinate,
-                            f_dbl_Side,
-                            dbl_Length_for_copy1,
+                        rtcRoomCopy = new Room(
+                            room.RoomName,
+                            room.RoomArea,
+                            fXCoordinate,
+                            fYCoordinate,
+                            fSide,
+                            lengthForCopy1,
                             false
                             );
                     }
 
                     if (iVersion == 2)
                     {
-                        double dbl_Width_for_copy2 =
-                            dbl_Area_for_copy / f_dbl_Side;
+                        double widthForCopy2 =
+                            areaForCopy / fSide;
 
-                        copy_rtc_Room = new Room(
-                        room.str_room_name,
-                        room.dbl_room_area,
-                        f_dbl_x_coordinate,
-                        f_dbl_y_coordinate,
-                        dbl_Width_for_copy2,
-                        f_dbl_Side,
+                        rtcRoomCopy = new Room(
+                        room.RoomName,
+                        room.RoomArea,
+                        fXCoordinate,
+                        fYCoordinate,
+                        widthForCopy2,
+                        fSide,
                         false
                         );
                     }
 
                     if (iVersion == 3)
                     {
-                        double dbl_Length_for_copy3 =
-                            dbl_Area_for_copy / f_dbl_Side;
+                        double lengthForCopy3 =
+                            areaForCopy / fSide;
 
-                        copy_rtc_Room = new Room(
-                            room.str_room_name,
-                            room.dbl_room_area,
-                            f_dbl_x_coordinate,
-                            f_dbl_y_coordinate - dbl_Length_for_copy3,
-                            f_dbl_Side,
-                            dbl_Length_for_copy3,
+                        rtcRoomCopy = new Room(
+                            room.RoomName,
+                            room.RoomArea,
+                            fXCoordinate,
+                            fYCoordinate - lengthForCopy3,
+                            fSide,
+                            lengthForCopy3,
                             false
                             );
                     }
 
                     if (iVersion == 4)
                     {
-                        double dbl_Width_for_copy4 =
-                            dbl_Area_for_copy / f_dbl_Side;
+                        double widthForCopy4 =
+                            areaForCopy / fSide;
 
-                        copy_rtc_Room = new Room(
-                            room.str_room_name,
-                            room.dbl_room_area,
-                            f_dbl_x_coordinate - dbl_Width_for_copy4,
-                            f_dbl_y_coordinate,
-                            dbl_Width_for_copy4,
-                            f_dbl_Side,
+                        rtcRoomCopy = new Room(
+                            room.RoomName,
+                            room.RoomArea,
+                            fXCoordinate - widthForCopy4,
+                            fYCoordinate,
+                            widthForCopy4,
+                            fSide,
                             false
                             );
                     }
 
-                    if (room.str_room_name == "Гостиная")
+                    if (room.RoomName == "Гостиная")
                     {
                         bool bFlag1 = CheckTheWall(
                                 FoundRoom(
                                     "Кухня",
-                                    f_rtc_Room_list
+                                    rtcRoomsList
                                     ),
-                                copy_rtc_Room
+                                rtcRoomCopy
                                 );
 
 
@@ -646,147 +646,147 @@ namespace House_builder
                         bool bFlag2 = CheckTheWall(
                                 FoundRoom(
                                     "Холл",
-                                    f_rtc_Room_list
+                                    rtcRoomsList
                                     ),
-                                copy_rtc_Room
+                                rtcRoomCopy
                                 );
 
                         if (bFlag1 && bFlag2)
                             return i;
                     }
 
-                    if (room.str_room_name == "Кухня")
+                    if (room.RoomName == "Кухня")
                     {
 
                         bool bFlag1 = CheckTheWall(
                                 FoundRoom(
                                     "Гостиная",
-                                    f_rtc_Room_list
+                                    rtcRoomsList
                                     ),
-                                copy_rtc_Room
+                                rtcRoomCopy
                                 );
 
                         bool bFlag2 = CheckTheWall(
                                 FoundRoom(
                                     "Холл",
-                                    f_rtc_Room_list
+                                    rtcRoomsList
                                     ),
-                                copy_rtc_Room
+                                rtcRoomCopy
                                 );
 
                         if (bFlag1 && bFlag2)
                             return i;
                     }
 
-                    if (room.str_room_name == "Ванная")
+                    if (room.RoomName == "Ванная")
                     {
 
                         bool bFlag1 = CheckTheWall(
                                 FoundRoom(
                                     "Холл",
-                                    f_rtc_Room_list
+                                    rtcRoomsList
                                     ),
-                                copy_rtc_Room
+                                rtcRoomCopy
                                 );
 
                         if (bFlag1)
                             return i;
                     }
 
-                    if (room.str_room_name == "Спальня")
+                    if (room.RoomName == "Спальня")
                     {
 
                         bool bFlag1 = CheckTheWall(
                                 FoundRoom(
                                     "Холл",
-                                    f_rtc_Room_list
+                                    rtcRoomsList
                                     ),
-                                copy_rtc_Room
+                                rtcRoomCopy
                                 );
 
                         if (bFlag1)
                             return i;
                     }
 
-                    if (room.str_room_name == "Санузел")
+                    if (room.RoomName == "Санузел")
                     {
 
                         bool bFlag1 = CheckTheWall(
                                 FoundRoom(
                                     "Холл",
-                                    f_rtc_Room_list
+                                    rtcRoomsList
                                     ),
-                                copy_rtc_Room
+                                rtcRoomCopy
                                 );
 
                         if (bFlag1)
                             return i;
                     }
 
-                    if (room.str_room_name == "Тамбур")
+                    if (room.RoomName == "Тамбур")
                     {
 
                         bool bFlag1 = CheckTheWall(
                                 FoundRoom(
                                     "Холл",
-                                    f_rtc_Room_list
+                                    rtcRoomsList
                                     ),
-                                copy_rtc_Room
+                                rtcRoomCopy
                                 );
 
                         if (bFlag1)
                             return i;
                     }
 
-                    if (room.str_room_name == "Холл")
+                    if (room.RoomName == "Холл")
                     {
 
                         bool bFlag1 = CheckTheWall(
                                 FoundRoom(
                                     "Гостиная",
-                                    f_rtc_Room_list
+                                    rtcRoomsList
                                     ),
-                                copy_rtc_Room
+                                rtcRoomCopy
                                 );
 
                         bool bFlag2 = CheckTheWall(
                                 FoundRoom(
                                     "Кухня",
-                                    f_rtc_Room_list
+                                    rtcRoomsList
                                     ),
-                                copy_rtc_Room
+                                rtcRoomCopy
                                 );
 
                         bool bFlag3 = CheckTheWall(
                                 FoundRoom(
                                     "Ванная",
-                                    f_rtc_Room_list
+                                    rtcRoomsList
                                     ),
-                                copy_rtc_Room
+                                rtcRoomCopy
                                 );
 
                         bool bFlag4 = CheckTheWall(
                                 FoundRoom(
                                     "Спальня",
-                                    f_rtc_Room_list
+                                    rtcRoomsList
                                     ),
-                                copy_rtc_Room
+                                rtcRoomCopy
                                 );
 
                         bool bFlag5 = CheckTheWall(
                                 FoundRoom(
                                     "Санузел",
-                                    f_rtc_Room_list
+                                    rtcRoomsList
                                     ),
-                                copy_rtc_Room
+                                rtcRoomCopy
                                 );
 
                         bool bFlag6 = CheckTheWall(
                                 FoundRoom(
                                     "Тамбур",
-                                    f_rtc_Room_list
+                                    rtcRoomsList
                                     ),
-                                copy_rtc_Room
+                                rtcRoomCopy
                                 );
 
                         if (bFlag1 && bFlag2 && bFlag3 &&
@@ -801,100 +801,94 @@ namespace House_builder
         //Поиск общей стены. Если общая стена существует, 
         //результат true, иначе false.
         bool CheckTheWall(
-            Room room_n1,
-            Room room_n2
+            Room roomN1,
+            Room roomN2
             )
         {
-            if (!room_n1.bFlag_room)
+            if (!roomN1.IsUsed)
                 return true;
             else
             {
                 #region Wall
-                Wall wcLeft_Wall_R1 = new Wall(
-                    room_n1.dbl_x_coordinate,
-                    room_n1.dbl_y_coordinate,
-                    room_n1.dbl_x_coordinate,
-                    room_n1.dbl_y_coordinate + room_n1.dbl_length_room
+                Wall wcLeftWallR1 = new Wall(
+                    roomN1.xCoordinate,
+                    roomN1.yCoordinate,
+                    roomN1.xCoordinate,
+                    roomN1.yCoordinate + roomN1.RoomLength
                     );
-                Wall wcRigth_Wall_R1 = new Wall(
-                    room_n1.dbl_x_coordinate + room_n1.dbl_width_room,
-                    room_n1.dbl_y_coordinate,
-                    room_n1.dbl_x_coordinate + room_n1.dbl_width_room,
-                    room_n1.dbl_y_coordinate + room_n1.dbl_length_room
+                Wall wcRigthWallR1 = new Wall(
+                    roomN1.xCoordinate + roomN1.RoomWidth,
+                    roomN1.yCoordinate,
+                    roomN1.xCoordinate + roomN1.RoomWidth,
+                    roomN1.yCoordinate + roomN1.RoomLength
                     );
-                Wall wcTop_Wall_R1 = new Wall(
-                    room_n1.dbl_x_coordinate,
-                    room_n1.dbl_y_coordinate,
-                    room_n1.dbl_x_coordinate + room_n1.dbl_width_room,
-                    room_n1.dbl_y_coordinate
+                Wall wcTopWallR1 = new Wall(
+                    roomN1.xCoordinate,
+                    roomN1.yCoordinate,
+                    roomN1.xCoordinate + roomN1.RoomWidth,
+                    roomN1.yCoordinate
                     );
-                Wall wcBottom_Wall_R1 = new Wall(
-                    room_n1.dbl_x_coordinate,
-                    room_n1.dbl_y_coordinate + room_n1.dbl_length_room,
-                    room_n1.dbl_x_coordinate + room_n1.dbl_width_room,
-                    room_n1.dbl_y_coordinate + room_n1.dbl_length_room
+                Wall wcBottomWallR1 = new Wall(
+                    roomN1.xCoordinate,
+                    roomN1.yCoordinate + roomN1.RoomLength,
+                    roomN1.xCoordinate + roomN1.RoomWidth,
+                    roomN1.yCoordinate + roomN1.RoomLength
                     );
 
-                Wall wcLeft_Wall_R2 = new Wall(
-                    room_n2.dbl_x_coordinate,
-                    room_n2.dbl_y_coordinate,
-                    room_n2.dbl_x_coordinate,
-                    room_n2.dbl_y_coordinate + room_n2.dbl_length_room
+                Wall wcBottomWallR2 = new Wall(
+                    roomN2.xCoordinate,
+                    roomN2.yCoordinate,
+                    roomN2.xCoordinate,
+                    roomN2.yCoordinate + roomN2.RoomLength
                     );
-                Wall wcRigth_Wall_R2 = new Wall(
-                    room_n2.dbl_x_coordinate + room_n2.dbl_width_room,
-                    room_n2.dbl_y_coordinate,
-                    room_n2.dbl_x_coordinate + room_n2.dbl_width_room,
-                    room_n2.dbl_y_coordinate + room_n2.dbl_length_room
+                Wall wcRigthWallR2 = new Wall(
+                    roomN2.xCoordinate + roomN2.RoomWidth,
+                    roomN2.yCoordinate,
+                    roomN2.xCoordinate + roomN2.RoomWidth,
+                    roomN2.yCoordinate + roomN2.RoomLength
                     );
-                Wall wcTop_Wall_R2 = new Wall(
-                    room_n2.dbl_x_coordinate,
-                    room_n2.dbl_y_coordinate,
-                    room_n2.dbl_x_coordinate + room_n2.dbl_width_room,
-                    room_n2.dbl_y_coordinate
+                Wall wcTopWallR2 = new Wall(
+                    roomN2.xCoordinate,
+                    roomN2.yCoordinate,
+                    roomN2.xCoordinate + roomN2.RoomWidth,
+                    roomN2.yCoordinate
                     );
-                Wall wcBottom_Wall_R2 = new Wall(
-                    room_n2.dbl_x_coordinate,
-                    room_n2.dbl_y_coordinate + room_n2.dbl_length_room,
-                    room_n2.dbl_x_coordinate + room_n2.dbl_width_room,
-                    room_n2.dbl_y_coordinate + room_n2.dbl_length_room
+                Wall wcBottomWallR2 = new Wall(
+                    roomN2.xCoordinate,
+                    roomN2.yCoordinate + roomN2.RoomLength,
+                    roomN2.xCoordinate + roomN2.RoomWidth,
+                    roomN2.yCoordinate + roomN2.RoomLength
                     );
                 #endregion
 
-                if (compareWallLR(wcLeft_Wall_R1, wcRigth_Wall_R2) ||
-                    compareWallLR(wcLeft_Wall_R2, wcRigth_Wall_R1) ||
-                    compareWallTB(wcTop_Wall_R2, wcBottom_Wall_R1) ||
-                    compareWallTB(wcTop_Wall_R1, wcBottom_Wall_R2)
-                    )
-                {
-                    return true;
-                }
-
-                return false;
+                return (compareWallLR(wcLeftWallR1, wcRigthWallR2) ||
+                    compareWallLR(wcBottomWallR2, wcRigthWallR1) ||
+                    compareWallTB(wcTopWallR2, wcBottomWallR1) ||
+                    compareWallTB(wcTopWallR1, wcBottomWallR2));
             }
         }
 
         //Сравнение левой стены с правой
         #region compareWall
         bool compareWallLR(
-            Wall wall_n1,
-            Wall wall_n2)
+            Wall wallN1,
+            Wall wallN2)
         {
-            if ((wall_n1.dbl_x1_coordinate) ==
-                (wall_n2.dbl_x1_coordinate))
+            if ((wallN1.XLeftTop) ==
+                (wallN2.XLeftTop))
             {
                 if (
-                        ((wall_n1.dbl_y2_coordinate <=
-                        wall_n2.dbl_y1_coordinate) 
+                        ((wallN1.dbl_y2_coordinate <=
+                        wallN2.YLeftTop) 
                         &&
-                        (wall_n1.dbl_y1_coordinate <=
-                        wall_n2.dbl_y2_coordinate)) 
+                        (wallN1.YLeftTop <=
+                        wallN2.dbl_y2_coordinate)) 
                         ||
-                        ((wall_n2.dbl_y2_coordinate <=
-                        wall_n1.dbl_y1_coordinate) 
+                        ((wallN2.dbl_y2_coordinate <=
+                        wallN1.YLeftTop) 
                         &&
-                        (wall_n2.dbl_y1_coordinate <=
-                        wall_n1.dbl_y2_coordinate))
+                        (wallN2.YLeftTop <=
+                        wallN1.dbl_y2_coordinate))
                     )
                     return false;
                 else return true;
@@ -904,24 +898,24 @@ namespace House_builder
 
         //Сравнение верхней стены с нижней
         bool compareWallTB(
-            Wall wall_n1,
-            Wall wall_n2)
+            Wall wallN1,
+            Wall wallN2)
         {
-            if (wall_n1.dbl_y1_coordinate ==
-                wall_n2.dbl_y1_coordinate)
+            if (wallN1.YLeftTop ==
+                wallN2.YLeftTop)
             {
                 if (
-                        ((wall_n1.dbl_x2_coordinate <=
-                        wall_n2.dbl_x1_coordinate) 
+                        ((wallN1.XRightBottom <=
+                        wallN2.XLeftTop) 
                         &&
-                        (wall_n1.dbl_x1_coordinate <=
-                        wall_n2.dbl_x2_coordinate)) 
+                        (wallN1.XLeftTop <=
+                        wallN2.XRightBottom)) 
                         ||
-                        ((wall_n2.dbl_x2_coordinate <=
-                        wall_n1.dbl_x1_coordinate) 
+                        ((wallN2.XRightBottom <=
+                        wallN1.XLeftTop) 
                         &&
-                        (wall_n2.dbl_x1_coordinate <=
-                        wall_n1.dbl_x2_coordinate))
+                        (wallN2.XLeftTop <=
+                        wallN1.XRightBottom))
                     )
                     return false;
                 else return true;
@@ -932,25 +926,25 @@ namespace House_builder
 
         //Поиск комнаты с заданным именем среди использованных в алгоритме.
         Room FoundRoom(
-            string f_str_room_name,
-            List<Room> room_list
+            string fRoomName,
+            List<Room> RoomsList
             )
         {
             Room room = new Room();
-            for (int i = 0; i < room_list.Count; i++)
+            for (int i = 0; i < RoomsList.Count; i++)
             {
-                if (room_list[i].str_room_name == f_str_room_name)
-                    room = room_list[i];
+                if (RoomsList[i].RoomName == fRoomName)
+                    room = RoomsList[i];
             }
             return room;
         }
 
         //Графическое представление дома
-        void createWindow_for_House(
-            List<Room> room_list
+        void createWindowForHouse(
+            List<Room> RoomsList
             )
         {
-            BuildHouseWindow w = new BuildHouseWindow(room_list);
+            BuildHouseWindow w = new BuildHouseWindow(RoomsList);
             w.Show();
 
             return;
